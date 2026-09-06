@@ -83,6 +83,6 @@ artifacts/             Reproducible benchmark summaries
 
 ## Engineering choices and limitations
 
-The objective is a transparent simulator whose behaviour can be explained in an interview. The navigation filter is deliberately a quaternion complementary filter rather than an EKF. There is no orbital gravity model, aerodynamic force, flexible-body dynamics, wheel desaturation, thruster allocation or hardware-in-the-loop interface. Sensor uncertainty values in the Monte Carlo campaign are illustrative test conditions, not claimed hardware specifications.
+The navigation filter is deliberately a quaternion complementary filter rather than an EKF. There is no orbital gravity model, aerodynamic force, flexible-body dynamics, wheel desaturation, thruster allocation or hardware-in-the-loop interface. Sensor uncertainty values in the Monte Carlo campaign are illustrative test conditions, not claimed hardware specifications.
 
 Those limitations are intentional and make the next engineering steps clear: multiplicative EKF, slew/trajectory guidance, orbital environment modelling, reaction-wheel desaturation and software-in-the-loop interfaces.
