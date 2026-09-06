@@ -1,62 +1,72 @@
 # Spacecraft 6-DOF GNC Simulator
 
-A compact guidance, navigation and control simulation for a rigid spacecraft. The project is designed around engineering traceability: assumptions are explicit, dynamics are testable, and closed-loop performance can be evaluated under off-nominal conditions.
+A reproducible educational spacecraft **guidance, navigation and control** simulation built to demonstrate engineering traceability rather than just produce an animation. The code separates truth dynamics, sensors, navigation estimation, guidance, control and reaction-wheel actuation, then verifies the closed loop against explicit requirements and Monte Carlo uncertainty cases.
 
-## Scope
+> This is portfolio/educational software, not flight software and not qualified to ECSS, DO-178C or any other aerospace standard.
 
-- Quaternion attitude propagation and rigid-body rotational dynamics
-- Translational point-mass dynamics
-- Reaction-wheel torque actuation with saturation
-- Gyroscope measurement model with white noise and constant bias
-- Quaternion-feedback PD attitude controller
-- Fixed-step RK4 integration
-- Monte Carlo verification over initial attitude error, sensor bias and inertia uncertainty
+## What is implemented
 
-This implementation is educational and intentionally self-contained. It is **not** flight software and does not claim qualification to any aerospace standard.
-
-## Requirements
-
-- **GNC-ATT-001**: for the nominal case, reduce attitude error below 1 deg after a 20 deg initial offset.
-- **GNC-ACT-001**: commanded body torque shall respect configured actuator saturation.
-- **GNC-NUM-001**: propagated quaternions shall remain normalized to numerical tolerance.
+- 13-state 6-DOF rigid-body plant: position, velocity, quaternion attitude and body rate
+- Euler rigid-body rotational dynamics and translational point-mass dynamics
+- fixed-step RK4 plant integration with quaternion normalization
+- gyroscope bias/noise model
+- noisy star-tracker absolute-attitude model
+- quaternion complementary attitude estimator
+- fixed-attitude guidance reference
+- quaternion-feedback PD controller
+- three-axis reaction-wheel model with torque and stored-momentum saturation
+- external force and disturbance-torque injection points
+- nominal verification case and reproducible Monte Carlo campaign
+- unit/regression tests covering kinematics, dynamics, estimation, actuator limits and closed-loop requirements
 
 ## Quick start
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
+python -m pip install -e '.[dev]'
+pytest
 python examples/run_nominal.py
-pytest -q
+python examples/run_monte_carlo.py --runs 500 --seed 7
 ```
 
-Run the Monte Carlo study:
+## Verification targets
 
-```bash
-python examples/run_monte_carlo.py --runs 200 --seed 7
-```
+The key baseline targets are:
 
-## Repository structure
+- settle below **1 deg** and stay there for 2 s within **30 s** from a nominal 20 deg attitude error;
+- final nominal attitude error below **0.2 deg** at 40 s;
+- nominal RMS attitude-estimation error below **0.2 deg**;
+- reaction-wheel torque limited to **1.0 N m** per axis;
+- reaction-wheel stored momentum limited to **8.0 N m s** per axis.
+
+See [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) for the full traceability table and uncertainty definitions. Generated benchmark values are stored separately in [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md) so claims remain tied to a specific executed campaign.
+
+## Repository layout
 
 ```text
 src/gnc/
-  math_utils.py      Quaternion utilities
-  dynamics.py        6-DOF state derivative and RK4 propagation
-  sensors.py         Gyroscope model
-  control.py         Quaternion PD controller
-  simulation.py      Closed-loop simulation and metrics
-examples/            Nominal and Monte Carlo entry points
-tests/               Numerical and control-law checks
+  math_utils.py       Quaternion math and interpolation
+  dynamics.py         6-DOF plant and RK4 integration
+  sensors.py          Gyroscope and star-tracker models
+  estimation.py       Quaternion complementary filter
+  guidance.py         Attitude reference interface
+  control.py          Quaternion PD controller
+  actuators.py        Reaction-wheel torque/momentum limits
+  simulation.py       Closed-loop orchestration and metrics
+examples/
+  run_nominal.py
+  run_monte_carlo.py
+tests/                Numerical, actuator, estimator and closed-loop tests
+docs/
+  ARCHITECTURE.md
+  REQUIREMENTS.md
+  PERFORMANCE.md
+artifacts/             Reproducible benchmark summaries
 ```
 
-## Modelling assumptions
+## Engineering choices and limitations
 
-The translational model uses inertial-frame force divided by mass with no gravity model. The rotational model uses Euler's rigid-body equation, `I*w_dot = tau - w x (I w)`. Quaternion convention is scalar-first `[w, x, y, z]`, representing body-to-inertial rotation. The controller uses the shortest-rotation quaternion error.
+The objective is a transparent simulator whose behaviour can be explained in an interview. The navigation filter is deliberately a quaternion complementary filter rather than an EKF. There is no orbital gravity model, aerodynamic force, flexible-body dynamics, wheel desaturation, thruster allocation or hardware-in-the-loop interface. Sensor uncertainty values in the Monte Carlo campaign are illustrative test conditions, not claimed hardware specifications.
 
-## Verification philosophy
-
-Results are generated by the code at run time; no benchmark numbers are hard-coded into the documentation. Tests focus on invariants (normalization, zero-input equilibrium, torque limits) and the example scripts report closed-loop metrics such as settling time and final pointing error.
-
-## Extensions
-
-Natural next steps are an EKF, thruster allocation, orbital gravity, actuator momentum management, trajectory guidance and software-in-the-loop interfaces.
+Those limitations are intentional and make the next engineering steps clear: multiplicative EKF, slew/trajectory guidance, orbital environment modelling, reaction-wheel desaturation and software-in-the-loop interfaces.

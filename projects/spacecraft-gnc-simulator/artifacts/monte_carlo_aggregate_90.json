@@ -1,0 +1,20 @@
+{
+  "runs": 90,
+  "seeds": [
+    7,
+    17,
+    27
+  ],
+  "success_rate_percent": 100.0,
+  "final_error_median_deg": 0.22440468204310707,
+  "final_error_p95_deg": 0.40082557354425835,
+  "final_error_max_deg": 0.7200718907797579,
+  "settling_time_median_s": 9.51,
+  "settling_time_p95_s": 10.64,
+  "settling_time_max_s": 19.48,
+  "rms_estimation_error_p95_deg": 0.08610403587302703,
+  "rms_estimation_error_max_deg": 0.11710105897636278,
+  "peak_torque_max_nm": 1.0,
+  "peak_wheel_momentum_p95_nms": 2.6614205438789003,
+  "peak_wheel_momentum_max_nms": 3.2742606729126305
+}
