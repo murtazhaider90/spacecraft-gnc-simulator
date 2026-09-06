@@ -2,20 +2,11 @@ name: GNC simulator CI
 
 on:
   push:
-    paths:
-      - 'projects/spacecraft-gnc-simulator/**'
-      - '.github/workflows/gnc-ci.yml'
   pull_request:
-    paths:
-      - 'projects/spacecraft-gnc-simulator/**'
-      - '.github/workflows/gnc-ci.yml'
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: projects/spacecraft-gnc-simulator
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
