@@ -1,0 +1,62 @@
+[
+  {
+    "name": "x_35deg",
+    "initial_angle_deg": 35.0,
+    "settling_time_s": 19.36,
+    "final_error_deg": 0.13427435747985025,
+    "rms_estimation_error_deg": 0.05211550996248017,
+    "peak_torque_nm": 1.0,
+    "peak_wheel_momentum_nms": 3.6541214929833057,
+    "pass": true
+  },
+  {
+    "name": "y_35deg",
+    "initial_angle_deg": 35.0,
+    "settling_time_s": 10.72,
+    "final_error_deg": 0.13349332731586866,
+    "rms_estimation_error_deg": 0.0543263308364704,
+    "peak_torque_nm": 1.0,
+    "peak_wheel_momentum_nms": 3.082884574356138,
+    "pass": true
+  },
+  {
+    "name": "z_35deg",
+    "initial_angle_deg": 35.0,
+    "settling_time_s": 11.26,
+    "final_error_deg": 0.14380983668536745,
+    "rms_estimation_error_deg": 0.05112645197576636,
+    "peak_torque_nm": 1.0,
+    "peak_wheel_momentum_nms": 2.8059641428463693,
+    "pass": true
+  },
+  {
+    "name": "diagonal_35deg",
+    "initial_angle_deg": 35.0,
+    "settling_time_s": 10.24,
+    "final_error_deg": 0.08824076246549645,
+    "rms_estimation_error_deg": 0.051793324211679884,
+    "peak_torque_nm": 1.0,
+    "peak_wheel_momentum_nms": 2.2800447198814875,
+    "pass": true
+  },
+  {
+    "name": "diagonal_45deg_extension",
+    "initial_angle_deg": 45.0,
+    "settling_time_s": 18.900000000000002,
+    "final_error_deg": 0.06460280233044582,
+    "rms_estimation_error_deg": 0.048071835712985865,
+    "peak_torque_nm": 1.0,
+    "peak_wheel_momentum_nms": 3.603688344303104,
+    "pass": true
+  },
+  {
+    "name": "z_60deg_extension",
+    "initial_angle_deg": 60.0,
+    "settling_time_s": 12.72,
+    "final_error_deg": 0.18696049097804077,
+    "rms_estimation_error_deg": 0.04952910008673247,
+    "peak_torque_nm": 1.0,
+    "peak_wheel_momentum_nms": 4.031335552953308,
+    "pass": true
+  }
+]

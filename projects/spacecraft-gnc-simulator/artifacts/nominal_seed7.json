@@ -1,0 +1,7 @@
+{
+  "final_attitude_error_deg": 0.14494621670794128,
+  "settling_time_s": 9.58,
+  "peak_applied_torque_nm": 1.0,
+  "peak_wheel_momentum_nms": 1.9101338620383008,
+  "rms_estimation_error_deg": 0.022521964998799344
+}
